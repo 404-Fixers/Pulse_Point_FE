@@ -43,6 +43,6 @@ jobs:
         uses: github/codeql-action/analyze@v3
 
       - name: Check for hardcoded secrets
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+            docker run --rm -v ${{ github.workspace }}:/repo zricethezav/gitleaks:latest \
+            detect --source="/repo" --no-git -v
