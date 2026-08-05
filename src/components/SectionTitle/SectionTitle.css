@@ -1,0 +1,22 @@
+.section-title {
+  margin-bottom: 48px;
+}
+
+.section-title h2 {
+  margin: 0 0 16px;
+  font-size: 38px;
+  line-height: 1.15;
+  color: #111827;
+}
+
+.section-title p {
+  margin: 0;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .section-title h2 {
+    font-size: 32px;
+  }
+}

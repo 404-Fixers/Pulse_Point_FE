@@ -1,0 +1,48 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  lint-test-build-audit:
+    name: Lint, test, build, and security audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Run tests
+        run: npm test --if-present
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Security audit (npm)
+        run: npm audit --audit-level=high
+
+      - name: Check for known vulnerable dependencies (CodeQL)
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+
+      - name: Check for hardcoded secrets
+        run: |
+            docker run --rm -v ${{ github.workspace }}:/repo zricethezav/gitleaks:latest \
+            detect --source="/repo" --no-git -v
