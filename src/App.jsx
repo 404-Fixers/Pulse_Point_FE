@@ -8,5 +8,4 @@ function App() {
     </DashboardLayout>
   );
 }
-
 export default App;
