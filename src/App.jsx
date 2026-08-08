@@ -1,7 +1,12 @@
-import LandingPage from "./pages/LandingPage/LandingPage";
+import DashboardLayout from "./Layouts/DashboardLayout/DashboardLayout";
 
 function App() {
-  return <LandingPage />;
+  return (
+    <DashboardLayout>
+      <h1>PulsePoint Dashboard</h1>
+      <p>Welcome to your dashboard.</p>
+    </DashboardLayout>
+  );
 }
 
 export default App;
