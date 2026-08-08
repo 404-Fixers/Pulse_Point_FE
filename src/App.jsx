@@ -1,4 +1,4 @@
-import DashboardLayout from "./layouts/DashboardLayout/DashboardLayout";
+import DashboardLayout from "./Layouts/DashboardLayout/DashboardLayout";
 
 function App() {
   return (
