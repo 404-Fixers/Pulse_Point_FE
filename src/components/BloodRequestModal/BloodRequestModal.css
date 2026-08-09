@@ -1,0 +1,228 @@
+.blood-modal__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(20, 18, 35, 0.62);
+  backdrop-filter: blur(4px);
+}
+
+.blood-modal {
+  width: min(100%, 560px);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #faf8f3;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  color: #2d2a4a;
+}
+
+.blood-modal__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 30px 20px;
+  border-bottom: 1px solid rgba(45, 42, 74, 0.1);
+}
+
+.blood-modal__eyebrow {
+  margin: 0 0 6px;
+  color: #2bb7a8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blood-modal__header h2 {
+  margin: 0;
+  color: #2d2a4a;
+  font-size: 1.6rem;
+}
+
+.blood-modal__header p:last-child {
+  margin: 8px 0 0;
+  color: #6f6b7f;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.blood-modal__close {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(45, 42, 74, 0.08);
+  color: #2d2a4a;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.blood-modal__close:hover {
+  background: rgba(45, 42, 74, 0.14);
+}
+
+.blood-modal__form {
+  display: grid;
+  gap: 18px;
+  padding: 24px 30px 30px;
+}
+
+.blood-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.blood-modal__field label {
+  color: #2d2a4a;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.blood-modal__field label span {
+  color: #8b8795;
+  font-weight: 400;
+}
+
+.blood-modal__field input,
+.blood-modal__field select,
+.blood-modal__field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d9d5d0;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #2d2a4a;
+  font: inherit;
+  padding: 12px 13px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.blood-modal__field input:focus,
+.blood-modal__field select:focus,
+.blood-modal__field textarea:focus {
+  border-color: #2bb7a8;
+  box-shadow: 0 0 0 3px rgba(43, 183, 168, 0.14);
+}
+
+.blood-modal__field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.blood-modal__field input:disabled,
+.blood-modal__field select:disabled,
+.blood-modal__field textarea:disabled {
+  background: #f0eee9;
+  cursor: not-allowed;
+}
+
+.blood-modal__error {
+  color: #b42318;
+  font-size: 0.78rem;
+}
+
+.blood-modal__message {
+  margin: 20px 30px 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.blood-modal__message--success {
+  background: rgba(43, 183, 168, 0.12);
+  color: #16786e;
+}
+
+.blood-modal__message--error {
+  background: rgba(180, 35, 24, 0.1);
+  color: #b42318;
+}
+
+.blood-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.blood-modal__cancel,
+.blood-modal__submit {
+  border: none;
+  border-radius: 9px;
+  padding: 12px 18px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.blood-modal__cancel {
+  background: #e8e5df;
+  color: #2d2a4a;
+}
+
+.blood-modal__submit {
+  background: #2bb7a8;
+  color: #ffffff;
+}
+
+.blood-modal__cancel:hover,
+.blood-modal__submit:hover {
+  transform: translateY(-1px);
+}
+
+.blood-modal__cancel:disabled,
+.blood-modal__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 600px) {
+  .blood-modal__overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .blood-modal {
+    width: 100%;
+    max-height: 92vh;
+    border-radius: 18px 18px 0 0;
+  }
+
+  .blood-modal__header {
+    padding: 22px 20px 18px;
+  }
+
+  .blood-modal__form {
+    padding: 20px;
+  }
+
+  .blood-modal__message {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .blood-modal__actions {
+    flex-direction: column-reverse;
+  }
+
+  .blood-modal__cancel,
+  .blood-modal__submit {
+    width: 100%;
+  }
+}
