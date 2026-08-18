@@ -3,6 +3,7 @@ name: Frontend CI
 on:
   pull_request:
     branches: [develop, main]
+  workflow_call:
 
 jobs:
   lint-test-build-audit:
