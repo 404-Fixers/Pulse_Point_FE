@@ -74,30 +74,7 @@ function DonorDashboard() {
       const data = await response.json();
 
       if (!response.ok) {
-        if (response.status === 400) {
-          setError(
-            data.message ||
-              "Invalid response. Please choose accept or decline.",
-          );
-        } else if (response.status === 401) {
-          setError(
-            data.message || "Your session has expired. Please log in again.",
-          );
-        } else if (response.status === 403) {
-          setError(
-            data.message ||
-              "You do not have permission to respond to this request.",
-          );
-        } else if (response.status === 404) {
-          setError(data.message || "Blood request not found.");
-        } else if (response.status === 409) {
-          setError(
-            data.message || "You have already responded to this blood request.",
-          );
-        } else {
-          setError(data.message || "Something went wrong. Please try again.");
-        }
-
+        setError(data.message || "Unable to submit your response.");
         return;
       }
 
@@ -149,26 +126,7 @@ function DonorDashboard() {
       const data = await response.json();
 
       if (!response.ok) {
-        if (response.status === 400) {
-          setError(
-            data.message ||
-              "You must accept the blood request before confirming a donation.",
-          );
-        } else if (response.status === 401) {
-          setError(
-            data.message || "Your session has expired. Please log in again.",
-          );
-        } else if (response.status === 403) {
-          setError(
-            data.message ||
-              "You do not have permission to confirm this donation.",
-          );
-        } else if (response.status === 404) {
-          setError(data.message || "Blood request or donor not found.");
-        } else {
-          setError(data.message || "Something went wrong. Please try again.");
-        }
-
+        setError(data.message || "Unable to confirm donation.");
         return;
       }
 

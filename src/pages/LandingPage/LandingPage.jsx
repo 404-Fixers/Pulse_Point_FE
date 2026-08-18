@@ -3,6 +3,7 @@ import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
 import bloodFlower from "../../assets/blood-flower.png";
+import bloodHands from "../../assets/blood-hands.png";
 import "./LandingPage.css";
 function LandingPage() {
   return (
@@ -35,12 +36,12 @@ function LandingPage() {
           </div>
         </section>
         <section className="about" id="about">
-          <div className="about__image">
-            <img
-              src="/images/blood-hands.png"
-              alt="Hands reaching toward each other inside a blood drop"
-            />
-          </div>
+          <img
+            src={bloodHands}
+            alt="Hands reaching toward each other inside a blood drop"
+            className="about__bg-logo"
+            aria-hidden="true"
+          />
 
           <div className="about__content">
             <p className="section-eyebrow">ABOUT PULSEPOINT</p>

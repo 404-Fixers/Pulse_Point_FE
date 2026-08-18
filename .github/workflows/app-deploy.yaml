@@ -1,0 +1,28 @@
+name: Deploy App
+
+on:
+  repository_dispatch:
+    types: [infra-ready]
+
+jobs:
+  deploy:
+    name: Deploy to provisioned server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code at triggering commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.client_payload.sha }}
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ github.event.client_payload.server_ip }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd ${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}
+            git pull origin develop
+            npm install
+            npm run build
+            pm2 restart pulsepoint-frontend-staging || pm2 start npm --name "pulsepoint-frontend-staging" -- start

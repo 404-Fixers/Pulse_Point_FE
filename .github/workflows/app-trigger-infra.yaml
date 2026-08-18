@@ -1,0 +1,29 @@
+name: Trigger Infra Provisioning
+
+on:
+  pull_request:
+    branches: [develop]
+    types: [closed]
+  
+
+jobs:
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yaml
+    permissions:
+      contents: read
+      security-events: write
+
+  trigger-devops:
+    name: Request infra from DevOps repo
+    runs-on: ubuntu-latest
+    needs: ci
+    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop' }}
+    steps:
+      - name: Dispatch provision request
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.DEVOPS_REPO_TOKEN }}
+          repository: 404-fixers/Pulse_Point_DevOps
+          event-type: provision-request
+          client-payload: '{"requesting_repo": "${{ github.repository }}", "sha": "${{ github.sha }}"}'

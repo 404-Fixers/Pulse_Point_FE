@@ -1,4 +1,5 @@
 import "./Navbar.css";
+import bloodHands from "../../assets/blood-hands.png";
 
 function Navbar() {
   const isLoggedIn = localStorage.getItem("token");
@@ -14,7 +15,8 @@ function Navbar() {
   return (
     <header className="navbar">
       <a href="/" className="navbar__logo">
-        ♥️ PulsePoint
+        <img src={bloodHands} alt="PulsePoint Logo" />
+        <span>PulsePoint</span>
       </a>
 
       <nav className="navbar__links">

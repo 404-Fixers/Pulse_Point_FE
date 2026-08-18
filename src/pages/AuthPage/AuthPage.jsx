@@ -27,10 +27,10 @@ function AuthPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData({
-      ...formData,
+    setFormData((previous) => ({
+      ...previous,
       [name]: value,
-    });
+    }));
   };
 
   const handleModeChange = (newMode) => {
@@ -129,8 +129,6 @@ function AuthPage() {
 
         setSuccess(data.message || "Login successful.");
 
-        console.log("Login response:", data);
-
         if (data.user.role === "donor") {
           window.location.href = "/donor-dashboard";
         } else if (data.user.role === "hospital") {
@@ -142,8 +140,6 @@ function AuthPage() {
         setSuccess(
           data.message || "Registration successful. You can now log in.",
         );
-
-        console.log("Registration response:", data);
       }
     } catch (error) {
       console.error("Authentication error:", error);
@@ -176,7 +172,6 @@ function AuthPage() {
         </div>
 
         {error && <p>{error}</p>}
-
         {success && <p>{success}</p>}
 
         <form onSubmit={handleSubmit}>
