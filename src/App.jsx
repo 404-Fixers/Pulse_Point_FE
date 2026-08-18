@@ -1,12 +1,7 @@
-import DashboardLayout from "./Layouts/DashboardLayout/DashboardLayout";
+import AuthPage from "./pages/AuthPage/AuthPage";
 
 function App() {
-  return (
-    <DashboardLayout>
-      <h1>PulsePoint Dashboard</h1>
-      <p>Welcome to your dashboard.</p>
-    </DashboardLayout>
-  );
+  return <AuthPage />;
 }
 
 export default App;
