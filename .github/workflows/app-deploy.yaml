@@ -21,14 +21,27 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            mkdir -p ${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}
-            cd ${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}
-            set -e
-            if [ ! -d "${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}/.git" ]; then
-              git clone https://github.com/404-Fixers/Pulse_Point_FE.git \
-                "${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}"
+            set -euo pipefail
+
+            DEPLOY_PATH="${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}"
+
+            if [ -z "$DEPLOY_PATH" ]; then
+              echo "ERROR: STAGING_FRONTEND_DEPLOY_PATH secret is empty. Aborting."
+              exit 1
             fi
-            git pull origin develop
+
+            echo "Deploying to: $DEPLOY_PATH"
+            mkdir -p "$DEPLOY_PATH"
+            cd "$DEPLOY_PATH"
+
+            if [ -d "$DEPLOY_PATH/.git" ]; then
+              echo "Repo already cloned, pulling latest..."
+              git pull origin develop
+            else
+              echo "No repo found, cloning fresh..."
+              git clone https://github.com/404-Fixers/Pulse_Point_FE.git "$DEPLOY_PATH" .
+            fi
+
             npm install
             npm run build
             pm2 restart pulsepoint-frontend-staging || pm2 start npm --name "pulsepoint-frontend-staging" -- start
