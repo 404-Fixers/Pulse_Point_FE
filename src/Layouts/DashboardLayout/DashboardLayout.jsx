@@ -1,4 +1,5 @@
 import { useState } from "react";
+import NotificationDropdown from "../../components/NotificationDropdown/NotificationDropdown";
 import "./DashboardLayout.css";
 
 function DashboardLayout({ children }) {
@@ -68,7 +69,13 @@ function DashboardLayout({ children }) {
         </nav>
       </aside>
 
-      <main className="dashboard-content">{children}</main>
+      <main className="dashboard-content">
+        <div className="dashboard-content__topbar">
+          <NotificationDropdown />
+        </div>
+
+        {children}
+      </main>
     </div>
   );
 }
