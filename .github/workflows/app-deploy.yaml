@@ -23,6 +23,11 @@ jobs:
           script: |
             mkdir -p ${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}
             cd ${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}
+            set -e
+            if [ ! -d "${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}/.git" ]; then
+              git clone https://github.com/404-Fixers/Pulse_Point_FE.git \
+                "${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}"
+            fi
             git pull origin develop
             npm install
             npm run build
