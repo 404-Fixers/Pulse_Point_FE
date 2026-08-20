@@ -39,7 +39,7 @@ jobs:
               git pull origin develop
             else
               echo "No repo found, cloning fresh..."
-              git clone https://github.com/404-Fixers/Pulse_Point_FE.git "$DEPLOY_PATH" .
+              git clone https://github.com/404-Fixers/Pulse_Point_FE.git  .
             fi
 
             npm install
