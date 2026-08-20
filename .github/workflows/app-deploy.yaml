@@ -38,8 +38,9 @@ jobs:
               echo "Repo already cloned, pulling latest..."
               git pull origin develop
             else
-              echo "No repo found, cloning fresh..."
-              git clone https://github.com/404-Fixers/Pulse_Point_FE.git  .
+              echo "No repo found. Clearing directory and cloning fresh..."
+              find "$DEPLOY_PATH" -mindepth 1 -delete
+              git clone https://github.com/404-Fixers/Pulse_Point_FE.git .
             fi
 
             npm install
