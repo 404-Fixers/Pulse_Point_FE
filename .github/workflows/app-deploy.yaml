@@ -22,24 +22,18 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             set -euo pipefail
-
-            DEPLOY_PATH="${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}"
-
-            if [ -z "$DEPLOY_PATH" ]; then
-              echo "ERROR: STAGING_FRONTEND_DEPLOY_PATH secret is empty. Aborting."
-              exit 1
+            # check if directory exists, if not create it
+            if [ ! -d "/home/ubuntu/pulsepoint-frontend-staging" ]; then
+              echo "Directory /home/ubuntu/pulsepoint-frontend-staging does not exist. Creating it..."
+              mkdir -p /home/ubuntu/pulsepoint-frontend-staging
             fi
-
-            echo "Deploying to: $DEPLOY_PATH"
-            mkdir -p "$DEPLOY_PATH"
-            cd "$DEPLOY_PATH"
-
-            if [ -d "$DEPLOY_PATH/.git" ]; then
+            cd /home/ubuntu/pulsepoint-frontend-staging
+            if [ -d "/home/ubuntu/pulsepoint-frontend-staging/.git" ]; then
               echo "Repo already cloned, pulling latest..."
               git pull origin develop
             else
               echo "No repo found. Clearing directory and cloning fresh..."
-              find "$DEPLOY_PATH" -mindepth 1 -delete
+              find /home/ubuntu/pulsepoint-frontend-staging -mindepth 1 -delete
               git clone https://github.com/404-Fixers/Pulse_Point_FE.git .
             fi
 
