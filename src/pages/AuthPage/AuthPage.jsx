@@ -50,7 +50,7 @@ function AuthPage() {
     let requestBody = {};
 
     if (mode === "donor") {
-      endpoint = "http://localhost:5000/auth/register/donor";
+      endpoint = `${import.meta.env.VITE_API_URL}/auth/register/donor`;
 
       requestBody = {
         fullName: formData.fullName,
@@ -66,7 +66,7 @@ function AuthPage() {
     }
 
     if (mode === "hospital") {
-      endpoint = "http://localhost:5000/auth/register/hospital";
+      endpoint = `${import.meta.env.VITE_API_URL}/auth/register/hospital`;
 
       requestBody = {
         hospitalName: formData.hospitalName,
@@ -82,7 +82,7 @@ function AuthPage() {
     }
 
     if (mode === "login") {
-      endpoint = "http://localhost:5000/auth/login";
+      endpoint = `${import.meta.env.VITE_API_URL}/auth/login`;
 
       requestBody = {
         email: formData.email,
