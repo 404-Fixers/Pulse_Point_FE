@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./DonorDashboard.css";
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 function DonorDashboard() {
   const [requests, setRequests] = useState([]);
@@ -201,13 +201,10 @@ function DonorDashboard() {
           <div className="request-list">
             {requests.map((request) => {
               const acceptLoading = actionLoading === `${request.id}-accepted`;
-
               const declineLoading = actionLoading === `${request.id}-declined`;
-
               const donationLoading = actionLoading === `${request.id}-donate`;
 
               const alreadyAccepted = request.donorResponse === "accepted";
-
               const alreadyDeclined = request.donorResponse === "declined";
 
               return (
