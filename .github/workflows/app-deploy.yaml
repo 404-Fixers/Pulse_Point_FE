@@ -39,4 +39,5 @@ jobs:
 
             npm install
             npm run build
+            echo "VITE_API_URL=http://localhost:5000" > .env
             pm2 restart pulsepoint-frontend-staging || pm2 start npm --name "pulsepoint-frontend-staging" -- start
