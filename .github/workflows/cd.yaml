@@ -29,21 +29,33 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Deploy build to server
-        uses: appleboy/scp-action@v0.1.7
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "dist/*"
-          target: ${{ secrets.FRONTEND_DEPLOY_PATH }}
-          strip_components: 1
+          script: |
+            set -euo pipefail
+            # check if directory exists, if not create it
+            if [ ! -d "/home/ubuntu/pulsepoint-frontend-prod" ]; then
+              echo "Directory /home/ubuntu/pulsepoint-frontend-prod does not exist. Creating it..."
+              mkdir -p /home/ubuntu/pulsepoint-frontend-prod
+            fi
+
+            cd /home/ubuntu/pulsepoint-frontend-prod
+            if [ -d "/home/ubuntu/pulsepoint-frontend-prod/.git" ]; then
+              echo "Repo already cloned, pulling latest..."
+              git switch main
+              git pull origin main
+            else
+              echo "No repo found. Clearing directory and cloning fresh..."
+              find /home/ubuntu/pulsepoint-frontend-prod -mindepth 1 -delete
+              git clone https://github.com/404-Fixers/Pulse_Point_FE.git .
+            fi
+            npm ci --omit=dev
+            npm run build
+            pm2 restart pulsepoint-frontend-prod || pm2 start npm --name "pulsepoint-frontend-prod" -- start
 
       - name: Reload web server
         uses: appleboy/ssh-action@v1

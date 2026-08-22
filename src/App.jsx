@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import DonorDashboard from "./pages/DonorDashboard/DonorDashboard";
@@ -9,7 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Home */}
+        {/* Landing Page */}
         <Route path="/" element={<LandingPage />} />
 
         {/* Authentication */}
@@ -22,7 +23,10 @@ function App() {
         {/* Hospital Dashboard */}
         <Route path="/dashboard/hospital" element={<HospitalDashboard />} />
 
-        {/* Redirect old dashboard URLs to the correct ones */}
+        {/* Admin Dashboard */}
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
+        {/* Redirect old dashboard URLs */}
         <Route
           path="/donor-dashboard"
           element={<Navigate to="/dashboard/donor" replace />}

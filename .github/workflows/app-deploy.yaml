@@ -21,8 +21,23 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd ${{ secrets.STAGING_FRONTEND_DEPLOY_PATH }}
-            git pull origin develop
+            set -euo pipefail
+            # check if directory exists, if not create it
+            if [ ! -d "/home/ubuntu/pulsepoint-frontend-staging" ]; then
+              echo "Directory /home/ubuntu/pulsepoint-frontend-staging does not exist. Creating it..."
+              mkdir -p /home/ubuntu/pulsepoint-frontend-staging
+            fi
+            cd /home/ubuntu/pulsepoint-frontend-staging
+            if [ -d "/home/ubuntu/pulsepoint-frontend-staging/.git" ]; then
+              echo "Repo already cloned, pulling latest..."
+              git pull origin develop
+            else
+              echo "No repo found. Clearing directory and cloning fresh..."
+              find /home/ubuntu/pulsepoint-frontend-staging -mindepth 1 -delete
+              git clone https://github.com/404-Fixers/Pulse_Point_FE.git .
+            fi
+
             npm install
             npm run build
+            echo "VITE_API_URL=http://localhost:5000" > .env
             pm2 restart pulsepoint-frontend-staging || pm2 start npm --name "pulsepoint-frontend-staging" -- start
