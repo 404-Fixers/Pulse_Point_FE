@@ -127,14 +127,12 @@ function AuthPage() {
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("role", data.user.role);
 
-        setSuccess(data.message || "Login successful.");
-
         if (data.user.role === "donor") {
-          window.location.href = "/donor-dashboard";
+          window.location.href = "/dashboard/donor";
         } else if (data.user.role === "hospital") {
-          window.location.href = "/hospital-dashboard";
-        } else if (data.user.role === "admin") {
-          window.location.href = "/admin-dashboard";
+          window.location.href = "/dashboard/hospital";
+        } else {
+          setError("Your account role is not recognized.");
         }
       } else {
         setSuccess(
@@ -171,8 +169,11 @@ function AuthPage() {
           </button>
         </div>
 
-        {error && <p>{error}</p>}
-        {success && <p>{success}</p>}
+        {error && <p className="auth-message auth-message--error">{error}</p>}
+
+        {success && (
+          <p className="auth-message auth-message--success">{success}</p>
+        )}
 
         <form onSubmit={handleSubmit}>
           {mode === "login" && (
