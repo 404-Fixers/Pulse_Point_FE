@@ -70,8 +70,8 @@
   font-size: 16px;
 }
 
-/* Error message */
-.auth-message {
+/* Authentication messages */
+.auth-page .auth-message {
   padding: 12px 15px;
   margin: 15px 0;
   border-radius: 8px;
@@ -79,17 +79,16 @@
   font-weight: 500;
 }
 
-.auth-message--error {
+/* Error message */
+.auth-page .auth-message--error {
   background: #fff1f1;
   color: #b42318;
-  border: 1px solid #fecdca;
 }
 
 /* Success message */
-.auth-message--success {
+.auth-page .auth-message--success {
   background: #ecfdf3;
   color: #027a48;
-  border: 1px solid #abefc6;
 }
 
 @media (max-width: 600px) {
