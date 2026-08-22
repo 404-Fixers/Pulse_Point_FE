@@ -56,8 +56,8 @@ function AuthPage() {
         fullName: formData.fullName,
         email: formData.email,
         password: formData.password,
-        bloodType: formData.bloodType,
-        phoneNumber: formData.phoneNumber,
+        blood_type: formData.bloodType,
+        phone_number: formData.phoneNumber,
         address: formData.address,
         city: formData.city,
         state: formData.state,
@@ -72,12 +72,12 @@ function AuthPage() {
         hospitalName: formData.hospitalName,
         email: formData.email,
         password: formData.password,
-        phoneNumber: formData.phoneNumber,
+        phone_number: formData.phoneNumber,
         address: formData.address,
         city: formData.city,
         state: formData.state,
         country: formData.country,
-        licenseNumber: formData.licenseNumber,
+        hospital_license: formData.licenseNumber,
       };
     }
 
