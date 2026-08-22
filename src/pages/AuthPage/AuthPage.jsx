@@ -53,7 +53,7 @@ function AuthPage() {
       endpoint = `${import.meta.env.VITE_API_URL}/auth/register/donor`;
 
       requestBody = {
-        fullName: formData.fullName,
+        name: formData.fullName,
         email: formData.email,
         password: formData.password,
         blood_type: formData.bloodType,
