@@ -5,6 +5,11 @@ on:
     branches: [develop, main]
   workflow_call:
 
+permissions:
+  contents: read
+  actions: read
+  security-events: write
+
 jobs:
   lint-test-build-audit:
     name: Lint, test, build, and security audit
