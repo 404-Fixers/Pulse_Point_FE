@@ -124,7 +124,7 @@ function AuthPage() {
         city: formData.city,
         state: formData.state,
         country: formData.country,
-        hospital_license: formData.licenseNumber,
+        hospital_lisence: formData.licenseNumber,
       };
     }
 
