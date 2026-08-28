@@ -6,6 +6,7 @@ on:
     types: [closed]
   
 permissions:
+  contents: read
   actions: read
 
 jobs:
