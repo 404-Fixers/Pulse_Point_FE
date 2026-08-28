@@ -5,6 +5,8 @@ on:
     branches: [develop]
     types: [closed]
   
+permissions:
+  actions: read
 
 jobs:
   ci:
