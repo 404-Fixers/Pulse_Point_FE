@@ -1,6 +1,29 @@
+import { useState } from "react";
 import "./HospitalDashboard.css";
+import BloodRequestModal from "../../components/BloodRequestModal/BloodRequestModal"
 
 function HospitalDashboard() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function handleCreateRequest(formData) {
+    console.log("Submitting blood request:", formData);
+    const token = localStorage.getItem("token");
+
+    return fetch(`${import.meta.env.VITE_API_URL}/requests`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to create blood request.");
+      }
+      return response.json();
+    });
+  }
+
   return (
     <main className="hospital-dashboard">
       <header className="hospital-dashboard__header">
@@ -10,7 +33,7 @@ function HospitalDashboard() {
           <p>Manage your blood requests and track donor activity.</p>
         </div>
 
-        <button type="button" className="hospital-dashboard__create">
+        <button type="button" className="hospital-dashboard__create" onClick={() => setIsModalOpen(true)}>
           + Create Blood Request
         </button>
       </header>
@@ -181,6 +204,11 @@ function HospitalDashboard() {
           </div>
         </div>
       </section>
+      <BloodRequestModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleCreateRequest}
+      />
     </main>
   );
 }
