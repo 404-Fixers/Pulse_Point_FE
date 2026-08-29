@@ -4,8 +4,10 @@ import "./BloodRequestModal.css";
 function BloodRequestModal({ isOpen, onClose, onSubmit }) {
   const [formData, setFormData] = useState({
     bloodType: "",
-    units: "",
+    unitsRequired: "",
     urgency: "",
+    location: "",
+    reason: "",
     hospital: "",
     notes: "",
   });
@@ -38,10 +40,10 @@ function BloodRequestModal({ isOpen, onClose, onSubmit }) {
       newErrors.bloodType = "Please select a blood type.";
     }
 
-    if (!formData.units) {
-      newErrors.units = "Please enter the number of units needed.";
+    if (!formData.unitsRequired) {
+      newErrors.unitsRequired = "Please enter the number of units needed.";
     } else if (Number(formData.units) < 1) {
-      newErrors.units = "Units needed must be at least 1.";
+      newErrors.unitsRequired = "Units needed must be at least 1.";
     }
 
     if (!formData.urgency) {
@@ -50,6 +52,14 @@ function BloodRequestModal({ isOpen, onClose, onSubmit }) {
 
     if (!formData.hospital.trim()) {
       newErrors.hospital = "Please enter the hospital name.";
+    }
+
+    if (!formData.reason.trim()) {
+      newErrors.reason = "Please enter the hospital name.";
+    }
+
+    if (!formData.location.trim()) {
+      newErrors.location = "Please enter the hospital name.";
     }
 
     return newErrors;
@@ -79,10 +89,12 @@ function BloodRequestModal({ isOpen, onClose, onSubmit }) {
       setTimeout(() => {
         setFormData({
           bloodType: "",
-          units: "",
+          unitsRequired: "",
           urgency: "",
           hospital: "",
           notes: "",
+          location: "",
+          reason: ""
         });
 
         setStatus("idle");
@@ -171,7 +183,7 @@ function BloodRequestModal({ isOpen, onClose, onSubmit }) {
           </div>
 
           <div className="blood-modal__field">
-            <label htmlFor="units">Units needed</label>
+            <label htmlFor="unitsRequired">Units needed</label>
 
             <input
               id="units"
@@ -179,13 +191,13 @@ function BloodRequestModal({ isOpen, onClose, onSubmit }) {
               type="number"
               min="1"
               placeholder="e.g. 2"
-              value={formData.units}
+              value={formData.unitsRequired}
               onChange={handleChange}
               disabled={status === "loading"}
             />
 
-            {errors.units && (
-              <span className="blood-modal__error">{errors.units}</span>
+            {errors.unitsRequired && (
+              <span className="blood-modal__error">{errors.unitsRequired}</span>
             )}
           </div>
 
@@ -208,6 +220,33 @@ function BloodRequestModal({ isOpen, onClose, onSubmit }) {
             {errors.urgency && (
               <span className="blood-modal__error">{errors.urgency}</span>
             )}
+          </div>
+
+          <div className="blood-modal__field">
+            <label htmlFor="location">location</label>
+
+            <textarea
+              id="location"
+              name="location"
+              rows="4"
+              placeholder="Closest landmark to your hospital"
+              value={formData.location}
+              onChange={handleChange}
+              disabled={status === "loading"}
+            />
+          </div>
+
+          <div className="blood-modal__field">
+            <label htmlFor="reason">reason</label>
+
+            <textarea
+              id="reason"
+              name="reason"
+              rows="4"
+              value={formData.reason}
+              onChange={handleChange}
+              disabled={status === "loading"}
+            />
           </div>
 
           <div className="blood-modal__field">
@@ -243,6 +282,8 @@ function BloodRequestModal({ isOpen, onClose, onSubmit }) {
               disabled={status === "loading"}
             />
           </div>
+
+
 
           <div className="blood-modal__actions">
             <button
