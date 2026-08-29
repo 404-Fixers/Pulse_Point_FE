@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./HospitalDashboard.css";
 import BloodRequestModal from "../../components/BloodRequestModal/BloodRequestModal";
 function HospitalDashboard() {
@@ -8,13 +8,12 @@ function HospitalDashboard() {
   const [requestError, setRequestError] = useState("");
   const API_URL = import.meta.env.VITE_API_URL;
   // Load blood requests belonging to the logged-in hospital
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     try {
-      setLoadingRequests(true);
-      setRequestError("");
       const token = localStorage.getItem("token");
       if (!token) {
         setRequestError("You are not logged in.");
+        setLoadingRequests(false);
         return;
       }
       const response = await fetch(`${API_URL}/requests`, {
@@ -28,16 +27,20 @@ function HospitalDashboard() {
         throw new Error(data.message || "Failed to load blood requests.");
       }
       setRequests(data.data || []);
+      setRequestError("");
     } catch (error) {
       console.error("Error loading blood requests:", error);
       setRequestError(error.message || "Unable to load blood requests.");
     } finally {
       setLoadingRequests(false);
     }
-  };
+  }, [API_URL]);
   useEffect(() => {
+    // The request runs after the component has mounted.
+    // The lint rule is disabled for this intentional data-fetching effect.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchRequests();
-  }, []);
+  }, [fetchRequests]);
   // Create a new blood request
   const handleCreateRequest = async (formData) => {
     const token = localStorage.getItem("token");
@@ -62,7 +65,7 @@ function HospitalDashboard() {
     if (!response.ok) {
       throw new Error(data.message || "Failed to create blood request.");
     }
-    // Load the updated requests after successful creation
+    // Refresh the requests after successfully creating one.
     await fetchRequests();
     return data;
   };
@@ -81,6 +84,12 @@ function HospitalDashboard() {
   const totalUnits = requests.reduce(
     (total, request) => total + Number(request.unitsRequired || 0),
     0,
+  );
+  const historyRequests = requests.filter(
+    (request) =>
+      request.status === "fulfilled" ||
+      request.status === "cancelled" ||
+      request.status === "expired",
   );
   return (
     <main className="hospital-dashboard">
@@ -165,36 +174,24 @@ function HospitalDashboard() {
           <h2>Request History</h2>
         </div>
         <div className="hospital-history">
-          {requests.filter(
-            (request) =>
-              request.status === "fulfilled" ||
-              request.status === "cancelled" ||
-              request.status === "expired",
-          ).length === 0 ? (
+          {historyRequests.length === 0 ? (
             <p>No request history yet.</p>
           ) : (
-            requests
-              .filter(
-                (request) =>
-                  request.status === "fulfilled" ||
-                  request.status === "cancelled" ||
-                  request.status === "expired",
-              )
-              .map((request) => (
-                <div className="hospital-history__row" key={request.id}>
-                  <div>
-                    <strong>{request.bloodType} Blood Request</strong>
-                    <span>
-                      {request.unitsRequired} units • {request.status}
-                    </span>
-                  </div>
+            historyRequests.map((request) => (
+              <div className="hospital-history__row" key={request.id}>
+                <div>
+                  <strong>{request.bloodType} Blood Request</strong>
                   <span>
-                    {request.createdAt
-                      ? new Date(request.createdAt).toLocaleDateString()
-                      : ""}
+                    {request.unitsRequired} units • {request.status}
                   </span>
                 </div>
-              ))
+                <span>
+                  {request.createdAt
+                    ? new Date(request.createdAt).toLocaleDateString()
+                    : ""}
+                </span>
+              </div>
+            ))
           )}
         </div>
       </section>
