@@ -186,7 +186,7 @@ function BloodRequestModal({ isOpen, onClose, onSubmit }) {
             <label htmlFor="unitsRequired">Units needed</label>
 
             <input
-              id="units"
+              id="unitsRequired"
               name="units"
               type="number"
               min="1"
@@ -225,7 +225,7 @@ function BloodRequestModal({ isOpen, onClose, onSubmit }) {
           <div className="blood-modal__field">
             <label htmlFor="location">location</label>
 
-            <textarea
+            <input
               id="location"
               name="location"
               rows="4"
@@ -239,7 +239,7 @@ function BloodRequestModal({ isOpen, onClose, onSubmit }) {
           <div className="blood-modal__field">
             <label htmlFor="reason">reason</label>
 
-            <textarea
+            <input
               id="reason"
               name="reason"
               rows="4"
